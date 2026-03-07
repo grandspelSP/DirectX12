@@ -12,7 +12,6 @@ void Object2D::enter()
 {
 	addComponent<Transform>();
 	addComponent<TextureRender>();
-	getComponent<TextureRender>()->Init("Texture/a.png");
 }
 
 void Object2D::update()

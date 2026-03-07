@@ -9,11 +9,48 @@
 #include "SampleImage.h"
 #include "Component/TextureRender.h"
 #include "Device.h"
+#include "Imgui/imgui.h"
 
 namespace {
 	const wchar_t* WINDOW_CLASS{ _T("DirectX12Test") };
 	const wchar_t* WINDOW_TITLE{ WINDOW_CLASS };
 }
+
+// Forward declare message handler from imgui_impl_win32.cpp
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+#if DEBUG
+void ShowUserGuide()
+{
+	ImGuiIO& io = ImGui::GetIO();
+	ImGui::BulletText("Double-click on title bar to collapse window.");
+	ImGui::BulletText(
+		"Click and drag on lower corner to resize window\n"
+		"(double-click to auto fit window to its contents).");
+	ImGui::BulletText("CTRL+Click on a slider or drag box to input value as text.");
+	ImGui::BulletText("TAB/SHIFT+TAB to cycle through keyboard editable fields.");
+	ImGui::BulletText("CTRL+Tab to select a window.");
+	if (io.FontAllowUserScaling)
+		ImGui::BulletText("CTRL+Mouse Wheel to zoom window contents.");
+	ImGui::BulletText("While inputing text:\n");
+	ImGui::Indent();
+	ImGui::BulletText("CTRL+Left/Right to word jump.");
+	ImGui::BulletText("CTRL+A or double-click to select all.");
+	ImGui::BulletText("CTRL+X/C/V to use clipboard cut/copy/paste.");
+	ImGui::BulletText("CTRL+Z,CTRL+Y to undo/redo.");
+	ImGui::BulletText("ESCAPE to revert.");
+	ImGui::Unindent();
+	ImGui::BulletText("With keyboard navigation enabled:");
+	ImGui::Indent();
+	ImGui::BulletText("Arrow keys to navigate.");
+	ImGui::BulletText("Space to activate a widget.");
+	ImGui::BulletText("Return to input text into a widget.");
+	ImGui::BulletText("Escape to deactivate a widget, close popup, exit child window.");
+	ImGui::BulletText("Alt to jump to the menu layer of a window.");
+	ImGui::Unindent();
+}
+#endif // DEBUG
+
 
 SampleImage image;
 SampleImage image2;
@@ -21,10 +58,17 @@ SampleImage image2;
 // ウィンドウプロシージャ
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 {
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, nMsg, wParam, lParam))
+		return true;
+
 	switch (nMsg) {
 	case WM_PAINT:
 		// 描画
 		GetDevice()->RenderBegin();
+
+#if DEBUG
+		ShowUserGuide();
+#endif // DEBUG
 
 		image.draw();
 		image2.draw();
@@ -79,8 +123,8 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, TCHAR* lpszCm
 			return 0;
 		}
 
-		image.enter();
-		image2.enter();
+		image.enter(1);
+		image2.enter(2);
 
 		ShowWindow(h_wnd, SW_SHOW);
 		UpdateWindow(h_wnd);
@@ -96,6 +140,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, TCHAR* lpszCm
 			}
 
 			image.update();
+			image2.update();
 
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
@@ -104,8 +149,9 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, TCHAR* lpszCm
 
 	// 終了時の後処理
 	GetDevice()->WaitForPreviousFrame();
-	CloseHandle(GetDevice()->mFenceEvent);
+	GetDevice()->Shutdown();
 	SingletonFinalizer::finalize();
 
 	return static_cast<int>(msg.wParam);
 }
+

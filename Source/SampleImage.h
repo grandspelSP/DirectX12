@@ -13,12 +13,12 @@ public:
 	SampleImage() = default;
 	virtual ~SampleImage() = default;
 
-	virtual void enter();
+	virtual void enter(const int id = -1);
 	virtual void update();
 	virtual void draw();
 	virtual void leave();
 
 private:
-	
+	int mID = -1;
 };
 

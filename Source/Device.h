@@ -39,6 +39,8 @@ public:
 
 	HRESULT WaitForPreviousFrame();
 
+	HRESULT Shutdown();
+
 	const LONG WINDOW_WIDTH{ 1280 };	// ウィンドウ幅
 	const LONG WINDOW_HEIGHT{ 720 };	// ウィンドウ高さ
 
@@ -56,6 +58,7 @@ public:
 	std::vector<ComPtr<ID3D12Resource>>	mRenderTargets;
 	ComPtr<ID3D12PipelineState>			mPipelineState;
 	ComPtr<ID3D12DescriptorHeap>		mRtvHeap;
+	ComPtr<ID3D12DescriptorHeap>		mSrvHeapForImgui;
 	UINT								mRtvDescriptorSize = 0;
 	ComPtr<ID3D12RootSignature>			mRootSignature;
 	ComPtr<ID3D12CommandAllocator>		mCommandAllocator;

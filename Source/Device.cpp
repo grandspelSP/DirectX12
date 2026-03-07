@@ -6,6 +6,10 @@
 
 #include "Device.h"
 #include "DirectXTex/d3dx12.h"
+#include "Imgui/imgui.h"
+#include "Imgui/imgui_impl_dx12.h"
+#include "Imgui/imgui_impl_win32.h"
+
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 
@@ -392,6 +396,32 @@ HRESULT Device::InitDevice(HWND hWnd)
 		return E_FAIL;
 	}
 
+	{
+		D3D12_DESCRIPTOR_HEAP_DESC desc = {};
+		desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+		desc.NumDescriptors = 64;
+		desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+		if (FAILED(mD3D12Device->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&mSrvHeapForImgui)))){
+			return E_FAIL;
+		}
+	}
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+	ImGui::StyleColorsDark();
+	//ImGui::StyleColorsLight();
+
+	ImGui_ImplWin32_Init(hWnd);
+
+	ImGui_ImplDX12_Init(mD3D12Device.Get(), FRAME_COUNT,
+		DXGI_FORMAT_R8G8B8A8_UNORM, mSrvHeapForImgui.Get(),
+		mSrvHeapForImgui->GetCPUDescriptorHandleForHeapStart(),
+		mSrvHeapForImgui->GetGPUDescriptorHandleForHeapStart());
+
 	return S_OK;
 }
 
@@ -419,11 +449,19 @@ HRESULT Device::RenderBegin()
 	const float	clear_color[] = { 0.0f, 0.2f, 0.4f, 1.0f };
 	mCommandList->ClearRenderTargetView(rtv_handle, clear_color, 0, nullptr);
 	
+	ImGui_ImplDX12_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+
 	return S_OK;
 }
 
 HRESULT Device::RenderEnd()
 {
+	ImGui::Render();
+	mCommandList->SetDescriptorHeaps(1, mSrvHeapForImgui.GetAddressOf());
+	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), mCommandList.Get());
+
 	// バックバッファを表示
 	{
 		D3D12_RESOURCE_BARRIER	resource_barrier = {};
@@ -481,5 +519,14 @@ HRESULT Device::WaitForPreviousFrame()
 
 	mFrameIndex = mSwapChain->GetCurrentBackBufferIndex();
 
+	return S_OK;
+}
+
+HRESULT Device::Shutdown()
+{
+	ImGui_ImplDX12_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
+	CloseHandle(mFenceEvent);
 	return S_OK;
 }

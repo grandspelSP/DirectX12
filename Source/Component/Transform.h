@@ -43,14 +43,14 @@ public:
 		mScale.x = scale.x;
 		mScale.y = scale.y;
 	}
-	const void SetScale3D(XMFLOAT3& scale) {
+	void SetScale3D(const XMFLOAT3& scale) {
 		mScale = scale;
 	}
-	const void SetRotation2D(XMFLOAT2& rotation) {
+	void SetRotation2D(const XMFLOAT2& rotation) {
 		mRotation.x = rotation.x;
 		mRotation.y = rotation.y;
 	}
-	const void SetRotation3D(XMFLOAT3& rotation) {
+	void SetRotation3D(const XMFLOAT3& rotation) {
 		mRotation = rotation;
 	}
 
