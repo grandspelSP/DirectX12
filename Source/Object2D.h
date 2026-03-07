@@ -5,21 +5,17 @@
 //=========================================================
 
 #pragma once
-#include "ObjectBase.h"
+#include "ActorBase.h"
 
-class Object2D : public ObjectBase
+class Object2D : public ActorBase
 {
 public:
 	Object2D() = default;
 	virtual ~Object2D() = default;
 
-	virtual void enter() = 0;
-	virtual void update() = 0;
-	virtual void draw() = 0;
+	virtual void enter();
+	virtual void update();
+	virtual void draw();
 	virtual void leave() = 0;
-
-protected:
-	// テクスチャ情報
-	const wchar_t* mTexturePath = L"Texture/a.png";
 };
 

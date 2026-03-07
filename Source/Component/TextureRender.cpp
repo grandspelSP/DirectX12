@@ -14,10 +14,11 @@
 TextureRender::TextureRender()
 {
     mMatrix = XMMatrixIdentity();
+
 }
 
 // 初期化
-HRESULT TextureRender::Init()
+HRESULT TextureRender::Init(const char* texturePath)
 {
     Device::Vertex vertexArray[4];
     vertexArray[0].position = { -0.5f,  0.5f, 0.0f };
@@ -39,7 +40,7 @@ HRESULT TextureRender::Init()
     uint32_t    indices[] = { 0, 1, 2, 0, 2, 3 };
     mVertexBufferSize = sizeof(vertexArray);
     mIndexBufferSize = sizeof(indices);
-	const wchar_t* texture_file_path = L"Texture/a.png";
+    mTexturePath = texturePath;
 
     // 頂点バッファ生成
     {
@@ -153,9 +154,9 @@ HRESULT TextureRender::Init()
             return E_FAIL;
         }
     }
-
+    
     // テクスチャ生成
-    if (wcslen(texture_file_path) > 0)
+    if (!mTexturePath.empty())
     {
         if (FAILED(CoInitializeEx(NULL, COINIT_MULTITHREADED)))
         {
@@ -165,7 +166,7 @@ HRESULT TextureRender::Init()
         // 読み込み
         std::unique_ptr<uint8_t[]>    wicData;
         D3D12_SUBRESOURCE_DATA      subresourceData;
-        if (FAILED(LoadWICTextureFromFile(GetDevice()->mD3D12Device.Get(), texture_file_path, &mTexture, wicData, subresourceData)))
+        if (FAILED(LoadWICTextureFromFile(GetDevice()->mD3D12Device.Get(), mTexturePath.wstring().data(), &mTexture, wicData, subresourceData)))
         {
             return E_FAIL;
         }
@@ -223,8 +224,6 @@ HRESULT TextureRender::Init()
 HRESULT TextureRender::RenderWICTexture()
 {
     auto& command_list = GetDevice()->mCommandList;
-
-	mMatrix = XMMatrixMultiply(mMatrix, XMMatrixTranslation(0.01f, 0.0f, 0.0f));
 
     XMFLOAT4X4 mat;
     XMStoreFloat4x4(&mat, XMMatrixTranspose(mMatrix /** GetCamera()->GetViewProjection()*/));

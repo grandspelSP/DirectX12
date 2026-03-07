@@ -5,7 +5,7 @@
 //=========================================================
 
 #include "Singleton.h"
-#include "ObjectBase.h"
+#include "ActorBase.h"
 #include "SampleImage.h"
 #include "Component/TextureRender.h"
 #include "Device.h"
@@ -16,6 +16,7 @@ namespace {
 }
 
 SampleImage image;
+SampleImage image2;
 
 // ウィンドウプロシージャ
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
@@ -26,6 +27,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 		GetDevice()->RenderBegin();
 
 		image.draw();
+		image2.draw();
 
 		GetDevice()->RenderEnd();
 		break;
@@ -78,6 +80,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, TCHAR* lpszCm
 		}
 
 		image.enter();
+		image2.enter();
 
 		ShowWindow(h_wnd, SW_SHOW);
 		UpdateWindow(h_wnd);
@@ -91,6 +94,8 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, TCHAR* lpszCm
 			if (msg.message == WM_QUIT) {
 				break;
 			}
+
+			image.update();
 
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);

@@ -10,18 +10,23 @@
 
 void SampleImage::enter()
 {
-	addComponent<Transform>();
-	addComponent<TextureRender>();
-	getComponent<TextureRender>()->Init();
+	Object2D::enter();
 }
 
 void SampleImage::update()
 {
+	auto* transform = getComponent<Transform>();
+	if (!transform) {
+		return;
+	}
+	transform->SetPosition2D(XMFLOAT2{ 1.0f, 1.0f });
+
+	Object2D::update();
 }
 
 void SampleImage::draw()
 {
-	getComponent<TextureRender>()->RenderWICTexture();
+	Object2D::draw();
 }
 
 void SampleImage::leave()

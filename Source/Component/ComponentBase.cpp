@@ -5,11 +5,11 @@
 //=========================================================
 
 #include "ComponentBase.h"
-#include "../ObjectBase.h"
+#include "../ActorBase.h"
 
-ObjectBase* ComponentBase::getParent() const {
+ActorBase* ComponentBase::getParent() const {
     return mParentObject;
 }
-const void ComponentBase::setParent(ObjectBase* parent) {
+const void ComponentBase::setParent(ActorBase* parent) {
     mParentObject = parent;
 }

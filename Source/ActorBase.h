@@ -1,5 +1,5 @@
 //=========================================================
-// @file ObjectBase.h
+// @file ActorBase.h
 // @auth Kota Tamaoki
 // @date 2022/12/03
 //=========================================================
@@ -8,20 +8,16 @@
 #include <d3d12.h>
 #include <list>
 #include <string>
+#include "DirectXIncluder.hpp"
 #include "Component/ComponentBase.h"
 
-//struct Transform3D
-//{
-//	DirectX::XMFLOAT3 position;
-//	DirectX::XMFLOAT3 scale;
-//	DirectX::XMFLOAT3 rotation;
-//};
+using namespace DirectX;
 
-class ObjectBase
+class ActorBase
 {
 public:
-	ObjectBase() {}
-	virtual ~ObjectBase() {
+	ActorBase() {}
+	virtual ~ActorBase() {
 		this->leave();
 	}
 

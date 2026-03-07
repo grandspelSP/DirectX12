@@ -32,16 +32,16 @@ public:
 		return mRotation;
 	}
 
-	const void SetPosition2D(XMFLOAT2& position) {
+	void SetPosition2D(const XMFLOAT2& position) {
 		mPosition.x = position.x;
 		mPosition.y = position.y;
 	}
-	const void SetPosition3D(XMFLOAT3& position) {
+	void SetPosition3D(const XMFLOAT3& position) {
 		mPosition = position;
 	}
-	const void SetScale2D(XMFLOAT2& scale) {
-		scale.x = scale.x;
-		scale.y = scale.y;
+	void SetScale2D(const XMFLOAT2& scale) {
+		mScale.x = scale.x;
+		mScale.y = scale.y;
 	}
 	const void SetScale3D(XMFLOAT3& scale) {
 		mScale = scale;

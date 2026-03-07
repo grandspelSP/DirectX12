@@ -6,7 +6,7 @@
 
 #pragma once
 
-class ObjectBase;
+class ActorBase;
 
 class ComponentBase
 {
@@ -23,10 +23,10 @@ public:
     virtual void leave() {}
 
     // コンポーネントを保持しているオブジェクトを取得
-    ObjectBase* getParent() const;
-    const void setParent(ObjectBase* parent);
+    ActorBase* getParent() const;
+    const void setParent(ActorBase* parent);
 
 protected:
-    ObjectBase* mParentObject;
+    ActorBase* mParentObject;
 };
 

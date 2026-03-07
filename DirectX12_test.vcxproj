@@ -24,7 +24,7 @@
     <ClCompile Include="Source\Device.cpp" />
     <ClCompile Include="Source\SampleImage.cpp" />
     <ClCompile Include="Source\Object2D.cpp" />
-    <ClCompile Include="Source\ObjectBase.cpp" />
+    <ClCompile Include="Source\ActorBase.cpp" />
     <ClCompile Include="Source\Singleton.cpp" />
     <ClCompile Include="Source\Component\TextureRender.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -38,7 +38,7 @@
     <ClInclude Include="Source\SampleImage.h" />
     <ClInclude Include="Source\Object2D.h" />
     <ClInclude Include="Source\DirectXTex\d3dx12.h" />
-    <ClInclude Include="Source\ObjectBase.h" />
+    <ClInclude Include="Source\ActorBase.h" />
     <ClInclude Include="Source\DIrectXIncluder.hpp" />
     <ClInclude Include="Source\Singleton.h" />
     <ClInclude Include="Source\Component\TextureRender.h" />

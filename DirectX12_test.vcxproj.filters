@@ -24,7 +24,7 @@
     <ClCompile Include="Source\Singleton.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ObjectBase.cpp">
+    <ClCompile Include="Source\ActorBase.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\WICTextureLoader\WICTextureLoader12.cpp">
@@ -59,7 +59,7 @@
     <ClInclude Include="Source\DIrectXIncluder.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ObjectBase.h">
+    <ClInclude Include="Source\ActorBase.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Source\DirectXTex\d3dx12.h">

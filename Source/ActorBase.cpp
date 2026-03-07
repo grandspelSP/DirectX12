@@ -1,37 +1,34 @@
 //=========================================================
-// @file ObjectBase.cpp
+// @file ActorBase.cpp
 // @auth Kota Tamaoki
 // @date 2022/12/03
 //=========================================================
 
-#include "ObjectBase.h"
-#include "DIrectXIncluder.hpp"
+#include "ActorBase.h"
 #include "Component/ComponentBase.h"
 
-using namespace DirectX;
-
-void ObjectBase::enter()
+void ActorBase::enter()
 {
 	for (auto* com : mComponentList) {
 		com->enter();
 	}
 }
 
-void ObjectBase::update()
+void ActorBase::update()
 {
 	for (auto* com : mComponentList) {
 		com->update();
 	}
 }
 
-void ObjectBase::draw()
+void ActorBase::draw()
 {
 	for (auto* com : mComponentList) {
 		com->draw();
 	}
 }
 
-void ObjectBase::leave()
+void ActorBase::leave()
 {
 	for (auto* com : mComponentList) {
 		com->leave();

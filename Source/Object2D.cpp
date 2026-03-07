@@ -5,3 +5,23 @@
 //=========================================================
 
 #include "Object2D.h"
+#include "Component/Transform.h"
+#include "Component/TextureRender.h"
+
+void Object2D::enter()
+{
+	addComponent<Transform>();
+	addComponent<TextureRender>();
+	getComponent<TextureRender>()->Init("Texture/a.png");
+}
+
+void Object2D::update()
+{
+	auto* transform = getComponent<Transform>();
+	getComponent<TextureRender>()->SetPosition(transform->getPosition3D());
+}
+
+void Object2D::draw()
+{
+	getComponent<TextureRender>()->RenderWICTexture();
+}
