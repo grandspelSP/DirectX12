@@ -15,16 +15,33 @@
 void SampleImage::enter(const int id)
 {
 	Object2D::enter();
-
 	mID = id;
-	if(mID == 1)
-		getComponent<TextureRender>()->Init("Texture/a.png");
-	else
-		getComponent<TextureRender>()->Init("Texture/ENDFIELD_SHARE_1769687062.png");
+
+	auto* texture_render = getComponent<TextureRender>();
+	
+	if (texture_render) {
+		if (mID == 1)
+			getComponent<TextureRender>()->Init("Texture/a.png");
+		else
+			getComponent<TextureRender>()->Init("Texture/ENDFIELD_SHARE_1769687062.png");
+	}
+
+	auto* transform = getComponent<Transform>();
+	transform->SetScale2D({ 128.0f, 72.0f });
 }
 //--------------------------------------------------------------------------------------
 void SampleImage::update()
 {
+	// “ü—ÍƒeƒXƒg
+	if(GetAsyncKeyState(VK_UP) & 0x8000) {
+		auto* transform = getComponent<Transform>();
+		if(transform) {
+			XMFLOAT2 position = transform->getPosition2D();
+			position.y += 0.1f;
+			transform->SetPosition2D(position);
+		}
+	}
+
 	Object2D::update();
 }
 //--------------------------------------------------------------------------------------
@@ -47,17 +64,17 @@ void SampleImage::draw()
 	float rotationArray[] = { rotation.x, rotation.y, rotation.z };
 	float scaleArray[] = { scale.x, scale.y, scale.z };
 	
-	if (ImGui::DragFloat3("Position ## Inspector", positionArray, 0.01f))
+	if (ImGui::DragFloat3("Position ## Inspector", positionArray, 1.0f))
 	{
 		transform->SetPosition3D({ positionArray[0], positionArray[1], positionArray[2] });
 	}
 	
-	if (ImGui::DragFloat3("Rotation ## Inspector", rotationArray, 0.01f))
+	if (ImGui::DragFloat3("Rotation ## Inspector", rotationArray, 1.0f))
 	{
 		transform->SetRotation3D({ rotationArray[0], rotationArray[1], rotationArray[2] });
 	}
 	
-	if (ImGui::DragFloat3("Scale ## Inspector", scaleArray, 0.01f))
+	if (ImGui::DragFloat3("Scale ## Inspector", scaleArray, 1.0f))
 	{
 		transform->SetScale3D({ scaleArray[0], scaleArray[1], scaleArray[2] });
 	}

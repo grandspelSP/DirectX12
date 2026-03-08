@@ -20,6 +20,7 @@ void Object2D::update()
 	auto* transform = getComponent<Transform>();
 	getComponent<TextureRender>()->SetPosition(transform->getPosition3D());
 	getComponent<TextureRender>()->SetRotation(transform->getRotation3D());
+	getComponent<TextureRender>()->SetScale(transform->getScale3D());
 }
 //--------------------------------------------------------------------------------------
 void Object2D::draw()

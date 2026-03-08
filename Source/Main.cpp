@@ -76,6 +76,11 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 
 		GetDevice()->RenderEnd();
 		break;
+	case WM_KEYDOWN:
+		if (wParam == VK_ESCAPE) {
+			PostQuitMessage(0);
+		}
+		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;

@@ -27,6 +27,7 @@ public:
 	// çXêV
 	void SetPosition(const XMFLOAT3& position);
 	void SetRotation(const XMFLOAT3& rotation);
+	void SetScale(const XMFLOAT3& scale);
 
 	// ï`âÊ
 	HRESULT RenderWICTexture();

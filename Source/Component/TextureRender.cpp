@@ -21,19 +21,19 @@ TextureRender::TextureRender()
 HRESULT TextureRender::Init(const char* texturePath)
 {
     Device::Vertex vertexArray[4];
-    vertexArray[0].position = { -0.5f,  0.5f, 0.0f };
+    vertexArray[0].position = { -1.0f,  1.0f, 0.0f };
     vertexArray[0].normal = { 0.0f, 0.0f, -1.f };
     vertexArray[0].color = { 1.0f, 1.0f, 1.0f, 1.0f };
     vertexArray[0].uv = { 0.0f, 0.0f };
-    vertexArray[1].position = { 0.5f,  0.5f, 0.0f };
+    vertexArray[1].position = { 1.0f,  1.0f, 0.0f };
     vertexArray[1].normal = { 0.0f, 0.0f, -1.0f };
     vertexArray[1].color = { 1.0f, 1.0f, 1.0f, 1.0f };
     vertexArray[1].uv = { 1.f, 0.0f };
-    vertexArray[2].position = { 0.5f, -0.5f, 0.0f };
+    vertexArray[2].position = { 1.0f, -1.0f, 0.0f };
     vertexArray[2].normal = { 0.0f, 0.0f, -1.0f };
     vertexArray[2].color = { 1.0f, 1.0f, 1.0f, 1.0f };
     vertexArray[2].uv = { 1.0f, 1.0f };
-    vertexArray[3].position = { -0.5f, -0.5f, 0.0f };
+    vertexArray[3].position = { -1.0f, -1.0f, 0.0f };
     vertexArray[3].normal = { 0.0f, 0.0f, -1.0f };
     vertexArray[3].color = { 1.0f, 1.0f, 1.0f, 1.0f };
     vertexArray[3].uv = { 0.0f, 1.0f };
@@ -236,6 +236,13 @@ void TextureRender::SetRotation(const XMFLOAT3& rotation) {
     mMatrix.r[0] = rotX.r[0] * rotY.r[0] * rotZ.r[0];
     mMatrix.r[1] = rotX.r[1] * rotY.r[1] * rotZ.r[1];
     mMatrix.r[2] = rotX.r[2] * rotY.r[2] * rotZ.r[2];
+}
+//--------------------------------------------------------------------------------------
+void TextureRender::SetScale(const XMFLOAT3& scale)
+{
+    mMatrix.r[0] = XMVectorSetX(mMatrix.r[0], scale.x / static_cast<float>(GetDevice()->WINDOW_WIDTH));
+    mMatrix.r[1] = XMVectorSetY(mMatrix.r[1], scale.y / static_cast<float>(GetDevice()->WINDOW_HEIGHT));
+	mMatrix.r[2] = XMVectorSetZ(mMatrix.r[2], scale.z);
 }
 //--------------------------------------------------------------------------------------
 HRESULT TextureRender::RenderWICTexture()
