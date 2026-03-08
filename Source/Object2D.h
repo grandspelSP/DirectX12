@@ -7,6 +7,7 @@
 #pragma once
 #include "ActorBase.h"
 
+//--------------------------------------------------------------------------------------
 class Object2D : public ActorBase
 {
 public:
@@ -18,4 +19,4 @@ public:
 	virtual void draw();
 	virtual void leave() = 0;
 };
-
+//--------------------------------------------------------------------------------------

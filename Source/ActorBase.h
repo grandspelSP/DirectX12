@@ -11,8 +11,9 @@
 #include "DirectXIncluder.hpp"
 #include "Component/ComponentBase.h"
 
+//--------------------------------------------------------------------------------------
 using namespace DirectX;
-
+//--------------------------------------------------------------------------------------
 class ActorBase
 {
 public:
@@ -82,3 +83,4 @@ protected:
 	std::list<ComponentBase*> mComponentList;
 	ObjectInfo mObjectInfo;
 };
+//--------------------------------------------------------------------------------------

@@ -8,8 +8,9 @@
 #include "ComponentBase.h"
 #include "../DIrectXIncluder.hpp"
 
+//--------------------------------------------------------------------------------------
 using namespace DirectX;
-
+//--------------------------------------------------------------------------------------
 class Transform : public ComponentBase
 {
 public:
@@ -54,8 +55,19 @@ public:
 		mRotation = rotation;
 	}
 
+	void ResetTransform() {
+		mPosition = mInitialPosition;
+		mScale = mInitialScale;
+		mRotation = mInitialRotation;
+	}
+
 private:
 	XMFLOAT3 mPosition{ 0.0f, 0.0f, 0.0f };
 	XMFLOAT3 mScale{ 1.0f, 1.0f, 1.0f };
 	XMFLOAT3 mRotation{ 0.0f, 0.0f, 0.0f };
+
+	XMFLOAT3 mInitialPosition{ 0.0f, 0.0f, 0.0f };
+	XMFLOAT3 mInitialScale{ 1.0f, 1.0f, 1.0f };
+	XMFLOAT3 mInitialRotation{ 0.0f, 0.0f, 0.0f };
 };
+//--------------------------------------------------------------------------------------

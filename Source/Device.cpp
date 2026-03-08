@@ -13,8 +13,9 @@
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 
+//--------------------------------------------------------------------------------------
 Device* Device::mInstance = nullptr;
-
+//--------------------------------------------------------------------------------------
 HRESULT Device::InitDevice(HWND hWnd)
 {
 	UINT dxgi_factory_flags = 0;
@@ -456,7 +457,7 @@ HRESULT Device::InitDevice(HWND hWnd)
 
 	return S_OK;
 }
-
+//--------------------------------------------------------------------------------------
 HRESULT Device::RenderBegin()
 {
 	mCommandList->RSSetViewports(1, &mViewport);
@@ -489,7 +490,7 @@ HRESULT Device::RenderBegin()
 
 	return S_OK;
 }
-
+//--------------------------------------------------------------------------------------
 HRESULT Device::RenderEnd()
 {
 	ImGui::Render();
@@ -534,7 +535,7 @@ HRESULT Device::RenderEnd()
 
 	return S_OK;
 }
-
+//--------------------------------------------------------------------------------------
 HRESULT Device::WaitForPreviousFrame()
 {
 	const UINT64 fence = mFenceValue;
@@ -555,7 +556,7 @@ HRESULT Device::WaitForPreviousFrame()
 
 	return S_OK;
 }
-
+//--------------------------------------------------------------------------------------
 HRESULT Device::Shutdown()
 {
 	ImGui_ImplDX12_Shutdown();
@@ -564,3 +565,4 @@ HRESULT Device::Shutdown()
 	CloseHandle(mFenceEvent);
 	return S_OK;
 }
+//--------------------------------------------------------------------------------------

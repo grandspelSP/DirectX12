@@ -6,16 +6,15 @@
 
 #pragma once
 #include <windows.h>
-#include <vector>
-#include <tchar.h>
 #include <wrl.h>		// Microsoft::WRL::ComPtr
 #include "../DIrectXIncluder.hpp"
 #include "ComponentBase.h"
 #include <filesystem>
 
+//--------------------------------------------------------------------------------------
 using namespace DirectX;
 using namespace Microsoft::WRL;
-
+//--------------------------------------------------------------------------------------
 class TextureRender : public ComponentBase
 {
 public:
@@ -26,17 +25,8 @@ public:
 	HRESULT Init(const char* texturePath);
 
 	// çXêV
-	void SetPosition(const XMFLOAT3& position) {
-		mMatrix.r[3] = XMVectorSet(position.x, position.y, position.z, 1.0f);
-	}
-	void SetRotation(const XMFLOAT3& rotation) {
-		XMMATRIX rotX = XMMatrixRotationX(rotation.x);
-		XMMATRIX rotY = XMMatrixRotationY(rotation.y);
-		XMMATRIX rotZ = XMMatrixRotationZ(rotation.z);
-		mMatrix.r[0] = rotX.r[0] * rotY.r[0] * rotZ.r[0];
-		mMatrix.r[1] = rotX.r[1] * rotY.r[1] * rotZ.r[1];
-		mMatrix.r[2] = rotX.r[2] * rotY.r[2] * rotZ.r[2];
-	}
+	void SetPosition(const XMFLOAT3& position);
+	void SetRotation(const XMFLOAT3& rotation);
 
 	// ï`âÊ
 	HRESULT RenderWICTexture();
@@ -67,3 +57,4 @@ private:
 	ComPtr<ID3D12Resource> mTextureUploadHeap;
 	ComPtr<ID3D12DescriptorHeap> mTextureHeap;
 };
+//--------------------------------------------------------------------------------------

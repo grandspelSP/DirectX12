@@ -5,6 +5,7 @@
 //=========================================================
 
 #include "Singleton.h"
+#include <tchar.h>
 #include "ActorBase.h"
 #include "SampleImage.h"
 #include "Component/TextureRender.h"

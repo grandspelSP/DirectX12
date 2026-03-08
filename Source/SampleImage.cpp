@@ -11,6 +11,7 @@
 #include "Imgui/imgui_impl_dx12.h"
 #include "Imgui/imgui_impl_win32.h"
 
+//--------------------------------------------------------------------------------------
 void SampleImage::enter(const int id)
 {
 	Object2D::enter();
@@ -21,12 +22,12 @@ void SampleImage::enter(const int id)
 	else
 		getComponent<TextureRender>()->Init("Texture/ENDFIELD_SHARE_1769687062.png");
 }
-
+//--------------------------------------------------------------------------------------
 void SampleImage::update()
 {
 	Object2D::update();
 }
-
+//--------------------------------------------------------------------------------------
 void SampleImage::draw()
 {
 #if DEBUG
@@ -60,13 +61,19 @@ void SampleImage::draw()
 	{
 		transform->SetScale3D({ scaleArray[0], scaleArray[1], scaleArray[2] });
 	}
+
+	if (ImGui::Button("ResetTransform")) {
+		transform->ResetTransform();
+	}
+
 	ImGui::PopID();
 	ImGui::End();
 #endif // DEBUG
 
 	Object2D::draw();
 }
-
+//--------------------------------------------------------------------------------------
 void SampleImage::leave()
 {
 }
+//--------------------------------------------------------------------------------------

@@ -7,9 +7,14 @@
 #include "ComponentBase.h"
 #include "../ActorBase.h"
 
-ActorBase* ComponentBase::getParent() const {
+//--------------------------------------------------------------------------------------
+ActorBase* ComponentBase::getParent() const
+{
     return mParentObject;
 }
-const void ComponentBase::setParent(ActorBase* parent) {
+//--------------------------------------------------------------------------------------
+const void ComponentBase::setParent(ActorBase* parent)
+{
     mParentObject = parent;
 }
+//--------------------------------------------------------------------------------------

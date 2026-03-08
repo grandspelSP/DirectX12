@@ -11,13 +11,13 @@
 #include "../DirectXIncluder.hpp"
 #include "../Camera.h"
 
+//--------------------------------------------------------------------------------------
 TextureRender::TextureRender()
 {
     mMatrix = XMMatrixIdentity();
 
 }
-
-// èâä˙âª
+//--------------------------------------------------------------------------------------
 HRESULT TextureRender::Init(const char* texturePath)
 {
     Device::Vertex vertexArray[4];
@@ -222,7 +222,22 @@ HRESULT TextureRender::Init(const char* texturePath)
 
     return S_OK;
 }
-
+//--------------------------------------------------------------------------------------
+void TextureRender::SetPosition(const XMFLOAT3& position) {
+    mMatrix.r[3] = XMVectorSet( position.x / static_cast<float>(GetDevice()->WINDOW_WIDTH),
+                                position.y / static_cast<float>(GetDevice()->WINDOW_HEIGHT), 
+                                position.z, 1.0f);
+}
+//--------------------------------------------------------------------------------------
+void TextureRender::SetRotation(const XMFLOAT3& rotation) {
+    XMMATRIX rotX = XMMatrixRotationX(rotation.x);
+    XMMATRIX rotY = XMMatrixRotationY(rotation.y);
+    XMMATRIX rotZ = XMMatrixRotationZ(rotation.z);
+    mMatrix.r[0] = rotX.r[0] * rotY.r[0] * rotZ.r[0];
+    mMatrix.r[1] = rotX.r[1] * rotY.r[1] * rotZ.r[1];
+    mMatrix.r[2] = rotX.r[2] * rotY.r[2] * rotZ.r[2];
+}
+//--------------------------------------------------------------------------------------
 HRESULT TextureRender::RenderWICTexture()
 {
     auto& command_list = GetDevice()->mCommandList;
@@ -264,3 +279,4 @@ HRESULT TextureRender::RenderWICTexture()
 
 	return S_OK;
 }
+//--------------------------------------------------------------------------------------
