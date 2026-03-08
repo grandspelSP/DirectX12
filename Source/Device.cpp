@@ -164,6 +164,39 @@ HRESULT Device::InitDevice(HWND hWnd)
 			// ハンドルのオフセット
 			rtv_handle.Offset(1, mRtvDescriptorSize);
 		}
+
+		// 深度/ステンシルディスクリプタヒープを作成
+		D3D12_DESCRIPTOR_HEAP_DESC ds_heap_desc = {};
+		ds_heap_desc.NumDescriptors = 1;
+		ds_heap_desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
+		ds_heap_desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+		if (FAILED(mD3D12Device->CreateDescriptorHeap(&ds_heap_desc, IID_PPV_ARGS(&mDsvHeap)))) {
+			return E_FAIL;
+		}
+
+		// 深度/ステンシルバッファを作成
+		D3D12_DEPTH_STENCIL_VIEW_DESC dsv_desc = {};
+		dsv_desc.Format = DXGI_FORMAT_D32_FLOAT;
+		dsv_desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+		dsv_desc.Flags = D3D12_DSV_FLAG_NONE;
+		D3D12_CLEAR_VALUE depth_clear_value = {};
+		depth_clear_value.Format = DXGI_FORMAT_D32_FLOAT;
+		depth_clear_value.DepthStencil.Depth = 1.0f;
+		depth_clear_value.DepthStencil.Stencil = 0;
+
+		auto prop = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+		auto desc = CD3DX12_RESOURCE_DESC::Tex2D(DXGI_FORMAT_D32_FLOAT, WINDOW_WIDTH, WINDOW_HEIGHT, 1, 1, 1, 0, D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
+		mD3D12Device->CreateCommittedResource(
+			&prop,
+			D3D12_HEAP_FLAG_NONE,
+			&desc,
+			D3D12_RESOURCE_STATE_DEPTH_WRITE,
+			&depth_clear_value,
+			IID_PPV_ARGS(&mDepthStencilBuffer)
+		);
+		mDsvHeap->SetName(L"Depth/Stencil Resource Heap");
+
+		mD3D12Device->CreateDepthStencilView(mDepthStencilBuffer.Get(), &dsv_desc, mDsvHeap->GetCPUDescriptorHandleForHeapStart());
 	}
 
 	// コマンドアロケーターを作成
@@ -303,7 +336,7 @@ HRESULT Device::InitDevice(HWND hWnd)
 			blend_desc.AlphaToCoverageEnable = false;
 			blend_desc.IndependentBlendEnable = false;
 			for (UINT i = 0; i < D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT; ++i) {
-				blend_desc.RenderTarget[i].BlendEnable = true;
+				blend_desc.RenderTarget[i].BlendEnable = false;
 				blend_desc.RenderTarget[i].LogicOpEnable = false;
 				blend_desc.RenderTarget[i].SrcBlend = D3D12_BLEND_SRC_ALPHA;
 				blend_desc.RenderTarget[i].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
@@ -316,8 +349,7 @@ HRESULT Device::InitDevice(HWND hWnd)
 			}
 			pso_desc.BlendState = blend_desc;
 		}
-		pso_desc.DepthStencilState.DepthEnable = false;
-		pso_desc.DepthStencilState.StencilEnable = false;
+		pso_desc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 		pso_desc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
 		pso_desc.SampleMask = UINT_MAX;
 		pso_desc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
@@ -443,11 +475,13 @@ HRESULT Device::RenderBegin()
 	}
 
 	CD3DX12_CPU_DESCRIPTOR_HANDLE rtv_handle(mRtvHeap->GetCPUDescriptorHandleForHeapStart(), mFrameIndex, mRtvDescriptorSize);
-	mCommandList->OMSetRenderTargets(1, &rtv_handle, false, nullptr);
+	CD3DX12_CPU_DESCRIPTOR_HANDLE dsv_handle(mDsvHeap->GetCPUDescriptorHandleForHeapStart());
+	mCommandList->OMSetRenderTargets(1, &rtv_handle, false, &dsv_handle);
 
 	// バックバッファに描画
 	const float	clear_color[] = { 0.0f, 0.2f, 0.4f, 1.0f };
 	mCommandList->ClearRenderTargetView(rtv_handle, clear_color, 0, nullptr);
+	mCommandList->ClearDepthStencilView(dsv_handle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 	
 	ImGui_ImplDX12_NewFrame();
 	ImGui_ImplWin32_NewFrame();

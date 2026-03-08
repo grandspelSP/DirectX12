@@ -59,6 +59,8 @@ public:
 	ComPtr<ID3D12PipelineState>			mPipelineState;
 	ComPtr<ID3D12DescriptorHeap>		mRtvHeap;
 	ComPtr<ID3D12DescriptorHeap>		mSrvHeapForImgui;
+	ComPtr<ID3D12Resource>				mDepthStencilBuffer;	// 深度ステンシルバッファ
+	ComPtr<ID3D12DescriptorHeap>		mDsvHeap;				// 深度ステンシルビュー用のヒープ
 	UINT								mRtvDescriptorSize = 0;
 	ComPtr<ID3D12RootSignature>			mRootSignature;
 	ComPtr<ID3D12CommandAllocator>		mCommandAllocator;

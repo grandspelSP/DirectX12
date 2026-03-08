@@ -18,6 +18,7 @@ void Object2D::update()
 {
 	auto* transform = getComponent<Transform>();
 	getComponent<TextureRender>()->SetPosition(transform->getPosition3D());
+	getComponent<TextureRender>()->SetRotation(transform->getRotation3D());
 }
 
 void Object2D::draw()

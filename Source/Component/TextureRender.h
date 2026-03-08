@@ -26,10 +26,10 @@ public:
 	HRESULT Init(const char* texturePath);
 
 	// çXêV
-	void SetPosition(XMFLOAT3 position) {
+	void SetPosition(const XMFLOAT3& position) {
 		mMatrix.r[3] = XMVectorSet(position.x, position.y, position.z, 1.0f);
 	}
-	void SetRotation(XMFLOAT3 rotation) {
+	void SetRotation(const XMFLOAT3& rotation) {
 		XMMATRIX rotX = XMMatrixRotationX(rotation.x);
 		XMMATRIX rotY = XMMatrixRotationY(rotation.y);
 		XMMATRIX rotZ = XMMatrixRotationZ(rotation.z);
