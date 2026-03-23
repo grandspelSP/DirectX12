@@ -32,6 +32,8 @@ public:
 	// •`‰æ
 	HRESULT RenderWICTexture();
 
+	virtual void debugDraw() override;
+
 	ComPtr<ID3D12Resource> getVertexBuffer() {
 		return mVertexBuffer;
 	}
@@ -57,5 +59,12 @@ private:
 	ComPtr<ID3D12Resource> mTexture;
 	ComPtr<ID3D12Resource> mTextureUploadHeap;
 	ComPtr<ID3D12DescriptorHeap> mTextureHeap;
+
+	XMFLOAT2 mUV[4] = {
+	{ 0.0f, 0.0f },
+	{ 1.0f, 0.0f },
+	{ 1.0f, 1.0f },
+	{ 0.0f, 1.0f }
+	};
 };
 //--------------------------------------------------------------------------------------

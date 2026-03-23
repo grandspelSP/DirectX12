@@ -22,21 +22,21 @@ HRESULT TextureRender::Init(const char* texturePath)
 {
     Device::Vertex vertexArray[4];
     vertexArray[0].position = { -1.0f,  1.0f, 0.0f };
-    vertexArray[0].normal = { 0.0f, 0.0f, -1.f };
+    vertexArray[0].normal = { 0.0f, 0.0f, -1.0f };
     vertexArray[0].color = { 1.0f, 1.0f, 1.0f, 1.0f };
-    vertexArray[0].uv = { 0.0f, 0.0f };
+    vertexArray[0].uv = mUV[0];
     vertexArray[1].position = { 1.0f,  1.0f, 0.0f };
     vertexArray[1].normal = { 0.0f, 0.0f, -1.0f };
     vertexArray[1].color = { 1.0f, 1.0f, 1.0f, 1.0f };
-    vertexArray[1].uv = { 1.f, 0.0f };
+    vertexArray[1].uv = mUV[1];
     vertexArray[2].position = { 1.0f, -1.0f, 0.0f };
     vertexArray[2].normal = { 0.0f, 0.0f, -1.0f };
     vertexArray[2].color = { 1.0f, 1.0f, 1.0f, 1.0f };
-    vertexArray[2].uv = { 1.0f, 1.0f };
+    vertexArray[2].uv = mUV[2];
     vertexArray[3].position = { -1.0f, -1.0f, 0.0f };
     vertexArray[3].normal = { 0.0f, 0.0f, -1.0f };
     vertexArray[3].color = { 1.0f, 1.0f, 1.0f, 1.0f };
-    vertexArray[3].uv = { 0.0f, 1.0f };
+    vertexArray[3].uv = mUV[3];
     uint32_t    indices[] = { 0, 1, 2, 0, 2, 3 };
     mVertexBufferSize = sizeof(vertexArray);
     mIndexBufferSize = sizeof(indices);
@@ -285,5 +285,63 @@ HRESULT TextureRender::RenderWICTexture()
     command_list->DrawIndexedInstanced((mIndexBufferSize / sizeof(uint32_t)), 1, 0, 0, 0);
 
 	return S_OK;
+}
+//--------------------------------------------------------------------------------------
+void TextureRender::debugDraw()
+{
+    const auto& id = mParentObject->getBaseProcID();
+
+    ImGui::Begin("UV");
+    ImGui::Text("Enemy %d", id);
+    ImGui::PushID(id);
+
+    float positionArray[4][2] = { { mUV[0].x, mUV[0].y },{ mUV[1].x, mUV[1].y },{ mUV[2].x, mUV[2].y },{ mUV[3].x, mUV[3].y } };
+
+    for(auto i = 0; i < 4; i++)
+    {
+        std::string label = std::format("UV{}", i);
+        if (ImGui::DragFloat2(label.c_str(), positionArray[i], 1.0f))
+        {
+            mUV[i] = { positionArray[i][0], positionArray[i][1] };
+        }
+	}
+
+    if (ImGui::Button("Reset")) {
+        mUV[0] = { 0.0f, 0.0f };
+        mUV[1] = { 1.0f, 0.0f };
+        mUV[2] = { 1.0f, 1.0f };
+        mUV[3] = { 0.0f, 1.0f };
+    }
+
+    ImGui::PopID();
+    ImGui::End();
+
+    Device::Vertex vertexArray[4];
+    vertexArray[0].position = { -1.0f,  1.0f, 0.0f };
+    vertexArray[0].normal = { 0.0f, 0.0f, -1.0f };
+    vertexArray[0].color = { 1.0f, 1.0f, 1.0f, 1.0f };
+    vertexArray[0].uv = mUV[0];
+    vertexArray[1].position = { 1.0f,  1.0f, 0.0f };
+    vertexArray[1].normal = { 0.0f, 0.0f, -1.0f };
+    vertexArray[1].color = { 1.0f, 1.0f, 1.0f, 1.0f };
+    vertexArray[1].uv = mUV[1];
+    vertexArray[2].position = { 1.0f, -1.0f, 0.0f };
+    vertexArray[2].normal = { 0.0f, 0.0f, -1.0f };
+    vertexArray[2].color = { 1.0f, 1.0f, 1.0f, 1.0f };
+    vertexArray[2].uv = mUV[2];
+    vertexArray[3].position = { -1.0f, -1.0f, 0.0f };
+    vertexArray[3].normal = { 0.0f, 0.0f, -1.0f };
+    vertexArray[3].color = { 1.0f, 1.0f, 1.0f, 1.0f };
+    vertexArray[3].uv = mUV[3];
+
+    // ƒf[ƒ^Ý’è
+    UINT8* pVertexDataBegin;
+    D3D12_RANGE readRange = { 0, 0 };
+    if (FAILED(mVertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pVertexDataBegin))))
+    {
+        return;
+    }
+    memcpy(pVertexDataBegin, vertexArray, mVertexBufferSize);
+    mVertexBuffer->Unmap(0, nullptr);
 }
 //--------------------------------------------------------------------------------------
