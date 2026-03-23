@@ -8,9 +8,10 @@
 #include <tchar.h>
 #include "ActorBase.h"
 #include "SampleImage.h"
-#include "Component/TextureRender.h"
+#include "TextureRender.h"
 #include "Device.h"
 #include "Imgui/imgui.h"
+#include "ActorMgr.h"
 
 namespace {
 	const wchar_t* WINDOW_CLASS{ _T("DirectX12Test") };
@@ -128,9 +129,11 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, TCHAR* lpszCm
 			MessageBox(h_wnd, _T("DirectXの初期化が失敗しました"), _T("Init"), MB_OK | MB_ICONEXCLAMATION);
 			return 0;
 		}
+		// マネージャーの初期化
+		ActorMgr::GetInstance()->initialize();
 
-		image.enter(1);
-		image2.enter(2);
+		image.enter();
+		image2.enter();
 
 		ShowWindow(h_wnd, SW_SHOW);
 		UpdateWindow(h_wnd);

@@ -11,15 +11,14 @@
 class SampleImage : public Object2D
 {
 public:
+	using Super = Object2D;
+
 	SampleImage() = default;
 	virtual ~SampleImage() = default;
 
-	virtual void enter(const int id = -1);
-	virtual void update();
-	virtual void draw();
-	virtual void leave();
-
-private:
-	int mID = -1;
+	virtual void enter() override;
+	virtual void update() override;
+	virtual void draw() override;
+	virtual void leave() override;
 };
 //--------------------------------------------------------------------------------------

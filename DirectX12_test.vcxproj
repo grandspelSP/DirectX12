@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\ActorMgr.cpp" />
     <ClCompile Include="Source\Imgui\imgui.cpp" />
     <ClCompile Include="Source\Imgui\imgui_demo.cpp" />
     <ClCompile Include="Source\Imgui\imgui_draw.cpp" />
@@ -27,7 +28,7 @@
     <ClCompile Include="Source\Imgui\imgui_tables.cpp" />
     <ClCompile Include="Source\Imgui\imgui_widgets.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
-    <ClCompile Include="Source\Component\ComponentBase.cpp">
+    <ClCompile Include="Source\ComponentBase.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"C:\Users\user\Desktop\Dodge\Imgui";%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="Source\Device.cpp" />
@@ -35,12 +36,13 @@
     <ClCompile Include="Source\Object2D.cpp" />
     <ClCompile Include="Source\ActorBase.cpp" />
     <ClCompile Include="Source\Singleton.cpp" />
-    <ClCompile Include="Source\Component\TextureRender.cpp" />
+    <ClCompile Include="Source\TextureRender.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\WICTextureLoader\WICTextureLoader12.cpp" />
-    <ClCompile Include="Source\Component\Transform.cpp" />
+    <ClCompile Include="Source\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\ActorMgr.h" />
     <ClInclude Include="Source\Imgui\imconfig.h" />
     <ClInclude Include="Source\Imgui\imgui.h" />
     <ClInclude Include="Source\Imgui\imgui_impl_dx12.h" />
@@ -50,7 +52,7 @@
     <ClInclude Include="Source\Imgui\imstb_textedit.h" />
     <ClInclude Include="Source\Imgui\imstb_truetype.h" />
     <ClInclude Include="Source\Camera.h" />
-    <ClInclude Include="Source\Component\ComponentBase.h" />
+    <ClInclude Include="Source\ComponentBase.h" />
     <ClInclude Include="Source\Device.h" />
     <ClInclude Include="Source\SampleImage.h" />
     <ClInclude Include="Source\Object2D.h" />
@@ -58,9 +60,9 @@
     <ClInclude Include="Source\ActorBase.h" />
     <ClInclude Include="Source\DIrectXIncluder.hpp" />
     <ClInclude Include="Source\Singleton.h" />
-    <ClInclude Include="Source\Component\TextureRender.h" />
+    <ClInclude Include="Source\TextureRender.h" />
     <ClInclude Include="Source\WICTextureLoader\WICTextureLoader12.h" />
-    <ClInclude Include="Source\Component\Transform.h" />
+    <ClInclude Include="Source\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shaders.hlsl">

@@ -5,7 +5,7 @@
 //=========================================================
 
 #include "ComponentBase.h"
-#include "../ActorBase.h"
+#include "ActorBase.h"
 
 //--------------------------------------------------------------------------------------
 ActorBase* ComponentBase::getParent() const

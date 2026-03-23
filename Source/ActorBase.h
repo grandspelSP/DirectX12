@@ -9,20 +9,20 @@
 #include <list>
 #include <string>
 #include "DirectXIncluder.hpp"
-#include "Component/ComponentBase.h"
 
 //--------------------------------------------------------------------------------------
 using namespace DirectX;
 //--------------------------------------------------------------------------------------
+class ComponentBase;
+//--------------------------------------------------------------------------------------
 class ActorBase
 {
 public:
-	ActorBase() {}
+	ActorBase();
 	virtual ~ActorBase() {
 		this->leave();
 	}
 
-	virtual void init() {}
 	virtual void enter();
 	virtual void update();
 	virtual void draw();
@@ -64,6 +64,8 @@ public:
 		return new_component;
 	}
 
+	const uint32_t getBaseProcID() const { return mBaseProcID; }
+
 private:
 	enum class ObjectName : char
 	{
@@ -78,6 +80,8 @@ private:
 		ObjectName name = ObjectName::NONE;
 		unsigned int id = 0;
 	};
+
+	uint32_t mBaseProcID = 0;
 
 protected:
 	std::list<ComponentBase*> mComponentList;

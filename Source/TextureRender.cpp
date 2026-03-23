@@ -5,11 +5,11 @@
 //=========================================================
 
 #include "TextureRender.h"
-#include "../DirectXTex/d3dx12.h"
-#include "../WICTextureLoader/WICTextureLoader12.h"
-#include "../Device.h"
-#include "../DirectXIncluder.hpp"
-#include "../Camera.h"
+#include "DirectXTex/d3dx12.h"
+#include "WICTextureLoader/WICTextureLoader12.h"
+#include "Device.h"
+#include "DirectXIncluder.hpp"
+#include "Camera.h"
 
 //--------------------------------------------------------------------------------------
 TextureRender::TextureRender()

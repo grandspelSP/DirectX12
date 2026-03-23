@@ -6,8 +6,11 @@
 
 #pragma once
 
-//--------------------------------------------------------------------------------------
-class ActorBase;
+#include "Imgui/imgui.h"
+#include "Imgui/imgui_impl_dx12.h"
+#include "Imgui/imgui_impl_win32.h"
+#include "ActorBase.h"
+
 //--------------------------------------------------------------------------------------
 class ComponentBase
 {
@@ -22,6 +25,7 @@ public:
     virtual void update() {}
     virtual void draw() {}
     virtual void leave() {}
+    virtual void debugDraw() {}
 
     // コンポーネントを保持しているオブジェクトを取得
     ActorBase* getParent() const;

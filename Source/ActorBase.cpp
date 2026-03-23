@@ -5,8 +5,14 @@
 //=========================================================
 
 #include "ActorBase.h"
-#include "Component/ComponentBase.h"
+#include "ComponentBase.h"
+#include "ActorMgr.h"
 
+//--------------------------------------------------------------------------------------
+ActorBase::ActorBase()
+{
+	mBaseProcID = ActorMgr::GetInstance()->generateActorBaseProcID();
+}
 //--------------------------------------------------------------------------------------
 void ActorBase::enter()
 {
@@ -25,6 +31,9 @@ void ActorBase::update()
 void ActorBase::draw()
 {
 	for (auto* com : mComponentList) {
+#if DEBUG
+		com->debugDraw();
+#endif
 		com->draw();
 	}
 }

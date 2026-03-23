@@ -5,18 +5,22 @@
 //=========================================================
 
 #include "Object2D.h"
-#include "Component/Transform.h"
-#include "Component/TextureRender.h"
+#include "Transform.h"
+#include "TextureRender.h"
 
 //--------------------------------------------------------------------------------------
 void Object2D::enter()
 {
+	Super::enter();
+
 	addComponent<Transform>();
 	addComponent<TextureRender>();
 }
 //--------------------------------------------------------------------------------------
 void Object2D::update()
 {
+	Super::update();
+
 	auto* transform = getComponent<Transform>();
 	getComponent<TextureRender>()->SetPosition(transform->getPosition3D());
 	getComponent<TextureRender>()->SetRotation(transform->getRotation3D());
@@ -25,6 +29,13 @@ void Object2D::update()
 //--------------------------------------------------------------------------------------
 void Object2D::draw()
 {
+	Super::draw();
+
 	getComponent<TextureRender>()->RenderWICTexture();
+}
+//--------------------------------------------------------------------------------------
+void Object2D::leave()
+{
+	Super::leave();
 }
 //--------------------------------------------------------------------------------------

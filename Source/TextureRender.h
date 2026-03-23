@@ -7,7 +7,7 @@
 #pragma once
 #include <windows.h>
 #include <wrl.h>		// Microsoft::WRL::ComPtr
-#include "../DIrectXIncluder.hpp"
+#include "DirectXIncluder.hpp"
 #include "ComponentBase.h"
 #include <filesystem>
 

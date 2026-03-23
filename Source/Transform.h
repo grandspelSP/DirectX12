@@ -6,7 +6,7 @@
 
 #pragma once
 #include "ComponentBase.h"
-#include "../DIrectXIncluder.hpp"
+#include "DirectXIncluder.hpp"
 
 //--------------------------------------------------------------------------------------
 using namespace DirectX;
@@ -14,6 +14,8 @@ using namespace DirectX;
 class Transform : public ComponentBase
 {
 public:
+	virtual void debugDraw() override final;
+
 	const XMFLOAT2& getPosition2D() const {
 		return XMFLOAT2{ mPosition.x, mPosition.y };
 	}
